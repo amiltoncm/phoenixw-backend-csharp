@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Phoenix.Models;
+using Phoenix.Domains;
 
 namespace Phoenix.Data
 {
@@ -15,5 +16,9 @@ namespace Phoenix.Data
         }
 
         public DbSet<Phoenix.Models.Profile> Profile { get; set; } = default!;
+
+        public DbSet<Phoenix.Domains.Status> Status { get; set; }
+
+        public DbSet<Phoenix.Models.User> User { get; set; }
     }
 }
