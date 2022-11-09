@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Phoenix.Models;
-using Phoenix.Domains;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Phoenix.Data
 {
@@ -22,5 +16,6 @@ namespace Phoenix.Data
         public DbSet<Phoenix.Models.User> User { get; set; }
 
         public DbSet<Phoenix.Models.Country> Country { get; set; }
+
     }
 }

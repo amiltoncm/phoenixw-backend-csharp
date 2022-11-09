@@ -10,7 +10,7 @@ using Phoenix.Models;
 
 namespace Phoenix.Controllers
 {
-    [Route("phoenix/api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProfilesController : ControllerBase
     {

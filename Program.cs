@@ -1,5 +1,4 @@
 ﻿using Phoenix.Data;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddMvc();
 
     builder.Services.AddEntityFrameworkNpgsql()
-                     .AddDbContext<PhoenixContext>(options => options.UseNpgsql(@"Host=localhost;Username=amxsistemas;Password=@I19c11m13*/;Database=phoenixc;port=5433"));
+                    .AddDbContext<PhoenixContext>(options => options.UseNpgsql(@"Host=localhost;Username=amxsistemas;Password=@I19c11m13*/;Database=phoenixc;port=5433"));
 
     var app = builder.Build();
 
