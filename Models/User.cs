@@ -35,12 +35,12 @@ namespace Phoenix.Models
         public string? Password { get; set; }
 
         [Column("pro_id")]
-        [Display(Name = "Perfil")]
+        [Display(Name = "ID Perfil")]
         [ForeignKey("Profile")]
         public int ProfileId { get; set; }
 
         [Column("sta_id")]
-        [Display(Name = "Status")]
+        [Display(Name = "ID Status")]
         [ForeignKey("Status")]
         public int StatusId { get; set; }
 

@@ -20,5 +20,7 @@ namespace Phoenix.Data
         public DbSet<Phoenix.Domains.Status> Status { get; set; }
 
         public DbSet<Phoenix.Models.User> User { get; set; }
+
+        public DbSet<Phoenix.Models.Country> Country { get; set; }
     }
 }
