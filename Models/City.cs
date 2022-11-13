@@ -21,6 +21,7 @@ namespace Phoenix.Models
         [Display(Name = "Código")]
         public int Code { get; set; }
 
+        [Required]
         [Column("cti_name")]
         [Display(Name = "Nome")]
         [MinLength(3, ErrorMessage = "É necessário pelo menos {1} caracteres!")]
