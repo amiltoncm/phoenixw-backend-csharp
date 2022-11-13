@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Phoenix.Models;
-using Phoenix.Domains;
 
 namespace Phoenix.Data
 {
@@ -22,6 +20,8 @@ namespace Phoenix.Data
         public DbSet<Phoenix.Models.State> State { get; set; }
 
         public DbSet<Phoenix.Domains.PersonType> PersonType { get; set; }
+
+        public DbSet<Phoenix.Models.City> City { get; set; }
 
     }
 }
