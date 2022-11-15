@@ -31,8 +31,8 @@ namespace Phoenix.Models
         [Required]
         [Column("ste_abbreviation")]
         [Display(Name = "Sigla")]
-        [MinLength(3, ErrorMessage = "É necessário pelo menos {1} caracteres!")]
-        [MaxLength(3, ErrorMessage = "O campo sigla suporta apenas {1} caracteres!")]
+        [MinLength(2, ErrorMessage = "É necessário pelo menos {1} caracteres!")]
+        [MaxLength(2, ErrorMessage = "O campo sigla suporta apenas {1} caracteres!")]
         public string? Abbreviation { get; set; }
 
         [Required]
