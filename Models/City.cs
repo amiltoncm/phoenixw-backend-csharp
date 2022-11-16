@@ -46,8 +46,10 @@ namespace Phoenix.Models
         [Display(Name = "Atualizado em")]
         public DateTime Updated { get; set; }
 
+        [Display(Name = "Estado")]
         public virtual State? State { get; set; }
 
+        [Display(Name = "Status")]
         public virtual Status? Status { get; set; }
     }
 }

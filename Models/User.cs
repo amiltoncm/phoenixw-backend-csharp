@@ -56,8 +56,10 @@ namespace Phoenix.Models
         [Display(Name = "Inativado em")]
         public DateTime Deleted { get; set; }
 
+        [Display(Name = "Status")]
         public virtual Status? Status { get; set; }
 
+        [Display(Name = "ID Profile")]
         public virtual Profile? Profile { get; set; }
 
     }
