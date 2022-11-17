@@ -11,7 +11,7 @@ namespace Phoenix.Domains
         [Key]
         [Column("sta_id")]
         [Display(Name = "Código")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]

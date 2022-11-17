@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221113001427_UpdateCities")]
-    partial class UpdateCities
+    [Migration("20221117220835_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,14 +45,31 @@ namespace Phoenix.Migrations
                     b.ToTable("person_types");
                 });
 
+            modelBuilder.Entity("Phoenix.Domains.PublicPlace", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("pup_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("pup_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "idx_pup_name")
+                        .IsUnique();
+
+                    b.ToTable("public_places");
+                });
+
             modelBuilder.Entity("Phoenix.Domains.Status", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("sta_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -202,8 +219,9 @@ namespace Phoenix.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Abbreviation")
-                        .HasMaxLength(3)
-                        .HasColumnType("character varying(3)")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)")
                         .HasColumnName("ste_abbreviation");
 
                     b.Property<int>("Code")
@@ -219,6 +237,7 @@ namespace Phoenix.Migrations
                         .HasColumnName("ste_created");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("ste_name");
@@ -271,6 +290,7 @@ namespace Phoenix.Migrations
                         .HasColumnName("usr_name");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("usr_password");

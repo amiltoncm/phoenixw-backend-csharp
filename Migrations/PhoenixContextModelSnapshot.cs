@@ -66,11 +66,8 @@ namespace Phoenix.Migrations
             modelBuilder.Entity("Phoenix.Domains.Status", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("sta_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -291,6 +288,7 @@ namespace Phoenix.Migrations
                         .HasColumnName("usr_name");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("usr_password");
