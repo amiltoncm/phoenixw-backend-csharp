@@ -272,7 +272,7 @@ namespace Phoenix.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("usr_created");
 
-                    b.Property<DateTime>("Deleted")
+                    b.Property<DateTime?>("Deleted")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("usr_deleted");
 

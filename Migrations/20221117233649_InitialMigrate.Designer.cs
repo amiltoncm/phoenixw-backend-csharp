@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221117220835_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20221117233649_InitialMigrate")]
+    partial class InitialMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -274,7 +274,7 @@ namespace Phoenix.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("usr_created");
 
-                    b.Property<DateTime>("Deleted")
+                    b.Property<DateTime?>("Deleted")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("usr_deleted");
 

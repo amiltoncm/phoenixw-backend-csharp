@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Phoenix.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,7 +95,7 @@ namespace Phoenix.Migrations
                     sta_id = table.Column<int>(type: "integer", nullable: false),
                     usr_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     usr_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    usr_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    usr_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
