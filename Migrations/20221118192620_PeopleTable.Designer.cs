@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221117233649_InitialMigrate")]
-    partial class InitialMigrate
+    [Migration("20221118192620_PeopleTable")]
+    partial class PeopleTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,29 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("person_types");
+                });
+
+            modelBuilder.Entity("Phoenix.Domains.Profile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("pro_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("pro_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "idx_pro_name")
+                        .IsUnique();
+
+                    b.ToTable("profiles");
                 });
 
             modelBuilder.Entity("Phoenix.Domains.PublicPlace", b =>
@@ -184,29 +207,6 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("countries");
-                });
-
-            modelBuilder.Entity("Phoenix.Models.Profile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("pro_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("pro_name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "idx_pro_name")
-                        .IsUnique();
-
-                    b.ToTable("profiles");
                 });
 
             modelBuilder.Entity("Phoenix.Models.State", b =>
@@ -370,7 +370,7 @@ namespace Phoenix.Migrations
 
             modelBuilder.Entity("Phoenix.Models.User", b =>
                 {
-                    b.HasOne("Phoenix.Models.Profile", "Profile")
+                    b.HasOne("Phoenix.Domains.Profile", "Profile")
                         .WithMany()
                         .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Phoenix.Migrations
 {
-    public partial class InitialMigrate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -175,6 +176,65 @@ namespace Phoenix.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "people",
+                columns: table => new
+                {
+                    peo_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    peo_name = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
+                    peo_alias = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    peo_document = table.Column<string>(type: "character varying(18)", maxLength: 18, nullable: true),
+                    peo_resgistration = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    pup_id = table.Column<int>(type: "integer", nullable: false),
+                    peo_address = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
+                    peo_number = table.Column<int>(type: "integer", nullable: false),
+                    peo_complement = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
+                    peo_district = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
+                    cti_id = table.Column<int>(type: "integer", nullable: false),
+                    peo_reference = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    peo_phone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    peo_zip = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    pet_id = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
+                    peo_email = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
+                    peo_client = table.Column<int>(type: "integer", nullable: false),
+                    peo_provider = table.Column<int>(type: "integer", nullable: false),
+                    peo_shipping = table.Column<int>(type: "integer", nullable: false),
+                    peo_associate = table.Column<int>(type: "integer", nullable: false),
+                    peo_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    peo_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    peo_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    peo_status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_people", x => x.peo_id);
+                    table.ForeignKey(
+                        name: "FK_people_cities_cti_id",
+                        column: x => x.cti_id,
+                        principalTable: "cities",
+                        principalColumn: "cti_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_people_person_types_pet_id",
+                        column: x => x.pet_id,
+                        principalTable: "person_types",
+                        principalColumn: "pet_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_people_public_places_pup_id",
+                        column: x => x.pup_id,
+                        principalTable: "public_places",
+                        principalColumn: "pup_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_people_status_peo_status",
+                        column: x => x.peo_status,
+                        principalTable: "status",
+                        principalColumn: "sta_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "idx_cti_name",
                 table: "cities",
@@ -212,6 +272,36 @@ namespace Phoenix.Migrations
                 name: "IX_countries_sta_id",
                 table: "countries",
                 column: "sta_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_peo_alias",
+                table: "people",
+                column: "peo_alias");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_peo_name",
+                table: "people",
+                column: "peo_name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_people_cti_id",
+                table: "people",
+                column: "cti_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_people_peo_status",
+                table: "people",
+                column: "peo_status");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_people_pet_id",
+                table: "people",
+                column: "pet_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_people_pup_id",
+                table: "people",
+                column: "pup_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_pet_name",
@@ -272,6 +362,12 @@ namespace Phoenix.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "people");
+
+            migrationBuilder.DropTable(
+                name: "users");
+
+            migrationBuilder.DropTable(
                 name: "cities");
 
             migrationBuilder.DropTable(
@@ -281,13 +377,10 @@ namespace Phoenix.Migrations
                 name: "public_places");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "profiles");
 
             migrationBuilder.DropTable(
                 name: "states");
-
-            migrationBuilder.DropTable(
-                name: "profiles");
 
             migrationBuilder.DropTable(
                 name: "countries");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Phoenix.Domains;
+using Phoenix.Models;
 
 namespace Phoenix.Data
 {
@@ -10,7 +11,7 @@ namespace Phoenix.Data
         {
         }
 
-        public DbSet<Phoenix.Models.Profile> Profile { get; set; } = default!;
+        public DbSet<Profile> Profile { get; set; } = default!;
 
         public DbSet<Phoenix.Domains.Status> Status { get; set; }
 
@@ -25,6 +26,8 @@ namespace Phoenix.Data
         public DbSet<Phoenix.Models.City> City { get; set; }
 
         public DbSet<Phoenix.Domains.PublicPlace> PublicPlace { get; set; }
+
+        public DbSet<Phoenix.Models.Person> Person { get; set; }
 
     }
 }
