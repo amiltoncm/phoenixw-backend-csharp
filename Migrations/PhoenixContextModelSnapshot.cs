@@ -106,6 +106,29 @@ namespace Phoenix.Migrations
                     b.ToTable("status");
                 });
 
+            modelBuilder.Entity("Phoenix.Models.Bank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("bnk_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("character varying(75)")
+                        .HasColumnName("bnk_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "idx_bnk_name")
+                        .IsUnique();
+
+                    b.ToTable("banks");
+                });
+
             modelBuilder.Entity("Phoenix.Models.City", b =>
                 {
                     b.Property<int>("Id")

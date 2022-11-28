@@ -11,6 +11,19 @@ namespace Phoenix.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "banks",
+                columns: table => new
+                {
+                    bnk_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    bnk_name = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_banks", x => x.bnk_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "person_types",
                 columns: table => new
                 {
@@ -236,6 +249,12 @@ namespace Phoenix.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "idx_bnk_name",
+                table: "banks",
+                column: "bnk_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "idx_cti_name",
                 table: "cities",
                 column: "cti_name");
@@ -361,6 +380,9 @@ namespace Phoenix.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "banks");
+
             migrationBuilder.DropTable(
                 name: "people");
 
