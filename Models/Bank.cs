@@ -7,6 +7,7 @@ namespace Phoenix.Models
 {
 
     [Table("banks")]
+    [Index(nameof(Code), Name = "idx_bnk_code", IsUnique = true)]
     [Index(nameof(Name), Name = "idx_bnk_name", IsUnique = true)]
     public class Bank
     {
