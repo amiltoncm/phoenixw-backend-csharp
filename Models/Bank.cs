@@ -12,9 +12,14 @@ namespace Phoenix.Models
     {
         [Key]
         [Column("bnk_id")]
-        [Display(Name = "Código")]
+        [Display(Name = "ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Required]
+        [Column("bnk_code")]
+        [Display(Name = "Código")]
+        public int Code { get; set; }
 
         [Required]
         [Column("bnk_name")]
