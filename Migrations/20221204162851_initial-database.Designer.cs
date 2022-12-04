@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221204145936_Initial-Base")]
-    partial class InitialBase
+    [Migration("20221204162851_initial-database")]
+    partial class initialdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,13 +121,27 @@ namespace Phoenix.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("bnk_code");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("bnk_created");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("character varying(75)")
                         .HasColumnName("bnk_name");
 
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer")
+                        .HasColumnName("sta_id");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("bnk_updated");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
 
                     b.HasIndex(new[] { "Code" }, "idx_bnk_code")
                         .IsUnique();
@@ -481,6 +495,17 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.Bank", b =>
+                {
+                    b.HasOne("Phoenix.Domains.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Phoenix.Models.City", b =>

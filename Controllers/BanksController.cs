@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Phoenix.Data;
 using Phoenix.Models;
 
 namespace Phoenix.Controllers
 {
-    public class BanksController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BanksController : ControllerBase
     {
         private readonly PhoenixContext _context;
 
@@ -19,150 +21,88 @@ namespace Phoenix.Controllers
             _context = context;
         }
 
-        // GET: Banks
-        public async Task<IActionResult> Index()
+        // GET: api/Banks
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Bank>>> GetBank()
         {
-            var phoenixContext = _context.Bank.Include(b => b.Status);
-            return View(await phoenixContext.ToListAsync());
+            return await _context.Bank.ToListAsync();
         }
 
-        // GET: Banks/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Banks/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Bank>> GetBank(int id)
         {
-            if (id == null || _context.Bank == null)
-            {
-                return NotFound();
-            }
-
-            var bank = await _context.Bank
-                .Include(b => b.Status)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (bank == null)
-            {
-                return NotFound();
-            }
-
-            return View(bank);
-        }
-
-        // GET: Banks/Create
-        public IActionResult Create()
-        {
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name");
-            return View();
-        }
-
-        // POST: Banks/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Code,Name,Created,Updated,StatusId")] Bank bank)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(bank);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", bank.StatusId);
-            return View(bank);
-        }
-
-        // GET: Banks/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Bank == null)
-            {
-                return NotFound();
-            }
-
             var bank = await _context.Bank.FindAsync(id);
+
             if (bank == null)
             {
                 return NotFound();
             }
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", bank.StatusId);
-            return View(bank);
+
+            return bank;
         }
 
-        // POST: Banks/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,Created,Updated,StatusId")] Bank bank)
+        // PUT: api/Banks/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBank(int id, Bank bank)
         {
             if (id != bank.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(bank).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(bank);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BankExists(bank.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            ViewData["StatusId"] = new SelectList(_context.Status, "Id", "Name", bank.StatusId);
-            return View(bank);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BankExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Banks/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // POST: api/Banks
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Bank>> PostBank(Bank bank)
         {
-            if (id == null || _context.Bank == null)
-            {
-                return NotFound();
-            }
+            _context.Bank.Add(bank);
+            await _context.SaveChangesAsync();
 
-            var bank = await _context.Bank
-                .Include(b => b.Status)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            return CreatedAtAction("GetBank", new { id = bank.Id }, bank);
+        }
+
+        // DELETE: api/Banks/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBank(int id)
+        {
+            var bank = await _context.Bank.FindAsync(id);
             if (bank == null)
             {
                 return NotFound();
             }
 
-            return View(bank);
-        }
-
-        // POST: Banks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Bank == null)
-            {
-                return Problem("Entity set 'PhoenixContext.Bank'  is null.");
-            }
-            var bank = await _context.Bank.FindAsync(id);
-            if (bank != null)
-            {
-                _context.Bank.Remove(bank);
-            }
-            
+            _context.Bank.Remove(bank);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool BankExists(int id)
         {
-          return _context.Bank.Any(e => e.Id == id);
+            return _context.Bank.Any(e => e.Id == id);
         }
     }
 }

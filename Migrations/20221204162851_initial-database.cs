@@ -6,24 +6,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Phoenix.Migrations
 {
-    public partial class InitialBase : Migration
+    public partial class initialdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "banks",
-                columns: table => new
-                {
-                    bnk_id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    bnk_code = table.Column<int>(type: "integer", nullable: false),
-                    bnk_name = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_banks", x => x.bnk_id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "person_types",
                 columns: table => new
@@ -71,6 +57,29 @@ namespace Phoenix.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_status", x => x.sta_id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "banks",
+                columns: table => new
+                {
+                    bnk_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    bnk_code = table.Column<int>(type: "integer", nullable: false),
+                    bnk_name = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false),
+                    bnk_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    bnk_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    sta_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_banks", x => x.bnk_id);
+                    table.ForeignKey(
+                        name: "FK_banks_status_sta_id",
+                        column: x => x.sta_id,
+                        principalTable: "status",
+                        principalColumn: "sta_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,6 +269,11 @@ namespace Phoenix.Migrations
                 table: "banks",
                 column: "bnk_name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_banks_sta_id",
+                table: "banks",
+                column: "sta_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_cti_name",
