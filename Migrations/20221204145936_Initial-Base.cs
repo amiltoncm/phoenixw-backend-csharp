@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Phoenix.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,6 +16,7 @@ namespace Phoenix.Migrations
                 {
                     bnk_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    bnk_code = table.Column<int>(type: "integer", nullable: false),
                     bnk_name = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false)
                 },
                 constraints: table =>
@@ -247,6 +248,12 @@ namespace Phoenix.Migrations
                         principalColumn: "sta_id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "idx_bnk_code",
+                table: "banks",
+                column: "bnk_code",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "idx_bnk_name",

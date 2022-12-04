@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221118192620_PeopleTable")]
-    partial class PeopleTable
+    [Migration("20221204145936_Initial-Base")]
+    partial class InitialBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,6 +106,36 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("status");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.Bank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("bnk_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Code")
+                        .HasColumnType("integer")
+                        .HasColumnName("bnk_code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("character varying(75)")
+                        .HasColumnName("bnk_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Code" }, "idx_bnk_code")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "Name" }, "idx_bnk_name")
+                        .IsUnique();
+
+                    b.ToTable("banks");
                 });
 
             modelBuilder.Entity("Phoenix.Models.City", b =>
@@ -207,6 +237,140 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("countries");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.Person", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("peo_address");
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("peo_alias");
+
+                    b.Property<int>("Associate")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_associate");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("integer")
+                        .HasColumnName("cti_id");
+
+                    b.Property<int>("Client")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_client");
+
+                    b.Property<string>("Complement")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("peo_complement");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("peo_created");
+
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("peo_deleted");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("peo_district");
+
+                    b.Property<string>("Document")
+                        .HasMaxLength(18)
+                        .HasColumnType("character varying(18)")
+                        .HasColumnName("peo_document");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("peo_email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("peo_name");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_number");
+
+                    b.Property<string>("PersonTypeId")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
+                        .HasColumnName("pet_id");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("peo_phone");
+
+                    b.Property<int>("Provider")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_provider");
+
+                    b.Property<int>("PublicPlaceId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pup_id");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("peo_reference");
+
+                    b.Property<string>("Registration")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("peo_resgistration");
+
+                    b.Property<int>("Shipping")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_shipping");
+
+                    b.Property<int>("StatusID")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_status");
+
+                    b.Property<DateTime>("Upadted")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("peo_updated");
+
+                    b.Property<string>("Zip")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("peo_zip");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("PersonTypeId");
+
+                    b.HasIndex("PublicPlaceId");
+
+                    b.HasIndex("StatusID");
+
+                    b.HasIndex(new[] { "Alias" }, "idx_peo_alias");
+
+                    b.HasIndex(new[] { "Name" }, "idx_peo_name");
+
+                    b.ToTable("people");
                 });
 
             modelBuilder.Entity("Phoenix.Models.State", b =>
@@ -345,6 +509,41 @@ namespace Phoenix.Migrations
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.Person", b =>
+                {
+                    b.HasOne("Phoenix.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Domains.PersonType", "PersonType")
+                        .WithMany()
+                        .HasForeignKey("PersonTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Domains.PublicPlace", "PublicPlace")
+                        .WithMany()
+                        .HasForeignKey("PublicPlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Domains.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("PersonType");
+
+                    b.Navigation("PublicPlace");
 
                     b.Navigation("Status");
                 });
