@@ -12,7 +12,7 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221204162851_initial-database")]
+    [Migration("20221208213343_initial-database")]
     partial class initialdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,16 +273,16 @@ namespace Phoenix.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("peo_alias");
 
-                    b.Property<int>("Associate")
-                        .HasColumnType("integer")
+                    b.Property<bool>("Associate")
+                        .HasColumnType("boolean")
                         .HasColumnName("peo_associate");
 
                     b.Property<int>("CityId")
                         .HasColumnType("integer")
                         .HasColumnName("cti_id");
 
-                    b.Property<int>("Client")
-                        .HasColumnType("integer")
+                    b.Property<bool>("Client")
+                        .HasColumnType("boolean")
                         .HasColumnName("peo_client");
 
                     b.Property<string>("Complement")
@@ -335,8 +335,8 @@ namespace Phoenix.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("peo_phone");
 
-                    b.Property<int>("Provider")
-                        .HasColumnType("integer")
+                    b.Property<bool>("Provider")
+                        .HasColumnType("boolean")
                         .HasColumnName("peo_provider");
 
                     b.Property<int>("PublicPlaceId")
@@ -353,8 +353,8 @@ namespace Phoenix.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("peo_resgistration");
 
-                    b.Property<int>("Shipping")
-                        .HasColumnType("integer")
+                    b.Property<bool>("Shipping")
+                        .HasColumnType("boolean")
                         .HasColumnName("peo_shipping");
 
                     b.Property<int>("StatusID")
