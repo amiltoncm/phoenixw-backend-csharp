@@ -139,6 +139,35 @@ namespace Phoenix.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "accounts",
+                columns: table => new
+                {
+                    acc_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    acc_name = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false),
+                    bnk_id = table.Column<int>(type: "integer", nullable: false),
+                    acc_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    acc_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    sta_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_accounts", x => x.acc_id);
+                    table.ForeignKey(
+                        name: "FK_accounts_banks_bnk_id",
+                        column: x => x.bnk_id,
+                        principalTable: "banks",
+                        principalColumn: "bnk_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_accounts_status_sta_id",
+                        column: x => x.sta_id,
+                        principalTable: "status",
+                        principalColumn: "sta_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "states",
                 columns: table => new
                 {
@@ -257,6 +286,22 @@ namespace Phoenix.Migrations
                         principalColumn: "sta_id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "idx_acc_name",
+                table: "accounts",
+                column: "acc_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_bnk_id",
+                table: "accounts",
+                column: "bnk_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_accounts_sta_id",
+                table: "accounts",
+                column: "sta_id");
 
             migrationBuilder.CreateIndex(
                 name: "idx_bnk_code",
@@ -402,13 +447,16 @@ namespace Phoenix.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "banks");
+                name: "accounts");
 
             migrationBuilder.DropTable(
                 name: "people");
 
             migrationBuilder.DropTable(
                 name: "users");
+
+            migrationBuilder.DropTable(
+                name: "banks");
 
             migrationBuilder.DropTable(
                 name: "cities");

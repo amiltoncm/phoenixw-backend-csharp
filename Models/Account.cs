@@ -24,8 +24,8 @@ namespace Phoenix.Models
         public string? Name { get; set; }
 
         [Column("bnk_id")]
-        [Display(Name = "ID Status")]
-        [ForeignKey("Status")]
+        [Display(Name = "Banco")]
+        [ForeignKey("Banks")]
         public int BankId { get; set; }
 
         [Column("acc_created")]
@@ -37,14 +37,17 @@ namespace Phoenix.Models
         public DateTime Updated { get; set; }
 
         [Column("sta_id")]
-        [Display(Name = "ID Status")]
+        [Display(Name = "Status")]
         [ForeignKey("Status")]
         public int StatusId { get; set; }
 
+        [Display(Name = "Banco")]
         public virtual Bank ? bank { get; set; }
 
+        [Display(Name = "Status")]
         public virtual Status ? status { get; set; }
 
     }
 
 }
+

@@ -106,6 +106,49 @@ namespace Phoenix.Migrations
                     b.ToTable("status");
                 });
 
+            modelBuilder.Entity("Phoenix.Models.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("acc_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BankId")
+                        .HasColumnType("integer")
+                        .HasColumnName("bnk_id");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("acc_created");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("character varying(75)")
+                        .HasColumnName("acc_name");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer")
+                        .HasColumnName("sta_id");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("acc_updated");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex(new[] { "Name" }, "idx_acc_name")
+                        .IsUnique();
+
+                    b.ToTable("accounts");
+                });
+
             modelBuilder.Entity("Phoenix.Models.Bank", b =>
                 {
                     b.Property<int>("Id")
@@ -493,6 +536,25 @@ namespace Phoenix.Migrations
                         .IsUnique();
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.Account", b =>
+                {
+                    b.HasOne("Phoenix.Models.Bank", "bank")
+                        .WithMany()
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Domains.Status", "status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("bank");
+
+                    b.Navigation("status");
                 });
 
             modelBuilder.Entity("Phoenix.Models.Bank", b =>
