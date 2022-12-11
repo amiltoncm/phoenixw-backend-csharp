@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221211031025_Initial-Database")]
-    partial class InitialDatabase
+    [Migration("20221211033405_initial-database")]
+    partial class initialdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -329,6 +329,10 @@ namespace Phoenix.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("acc_id");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pay_created");
+
                     b.Property<int?>("Days")
                         .HasColumnType("integer")
                         .HasColumnName("pay_days");
@@ -346,6 +350,10 @@ namespace Phoenix.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("integer")
                         .HasColumnName("sta_id");
+
+                    b.Property<DateTime>("Upadted")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pay_updated");
 
                     b.HasKey("Id");
 

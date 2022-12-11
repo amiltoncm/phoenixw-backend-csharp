@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Phoenix.Migrations
 {
-    public partial class InitialDatabase : Migration
+    public partial class initialdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -219,7 +220,9 @@ namespace Phoenix.Migrations
                     pty_id = table.Column<int>(type: "integer", nullable: false),
                     acc_id = table.Column<int>(type: "integer", nullable: true),
                     pay_days = table.Column<int>(type: "integer", nullable: true),
-                    sta_id = table.Column<int>(type: "integer", nullable: false)
+                    sta_id = table.Column<int>(type: "integer", nullable: false),
+                    pay_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    pay_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

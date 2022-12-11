@@ -327,6 +327,10 @@ namespace Phoenix.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("acc_id");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pay_created");
+
                     b.Property<int?>("Days")
                         .HasColumnType("integer")
                         .HasColumnName("pay_days");
@@ -344,6 +348,10 @@ namespace Phoenix.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnType("integer")
                         .HasColumnName("sta_id");
+
+                    b.Property<DateTime>("Upadted")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("pay_updated");
 
                     b.HasKey("Id");
 

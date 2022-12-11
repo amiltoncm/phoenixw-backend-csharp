@@ -40,6 +40,17 @@ namespace Phoenix.Models
         [Display(Name = "Status")]
         public int StatusId { get; set; }
 
+        [Required]
+        [Column("pay_created")]
+        [Display(Name = "Criado em")]
+        public DateTime Created { get; set; }
+
+        [Required]
+        [Column("pay_updated")]
+        [Display(Name = "Alterado em")]
+        public DateTime Upadted { get; set; }
+
+
         [Display(Name = "Conta")]
         public Account ? Account { get; set; }
 
