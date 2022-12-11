@@ -22,6 +22,26 @@ namespace Phoenix.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Phoenix.Domains.PaymentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasColumnName("pty_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("pty_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "idx_pty_name")
+                        .IsUnique();
+
+                    b.ToTable("payment_types");
+                });
+
             modelBuilder.Entity("Phoenix.Domains.PersonType", b =>
                 {
                     b.Property<string>("Id")
@@ -294,6 +314,49 @@ namespace Phoenix.Migrations
                     b.ToTable("countries");
                 });
 
+            modelBuilder.Entity("Phoenix.Models.PaymentMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("pay_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("integer")
+                        .HasColumnName("acc_id");
+
+                    b.Property<int?>("Days")
+                        .HasColumnType("integer")
+                        .HasColumnName("pay_days");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("pay_name");
+
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pty_id");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer")
+                        .HasColumnName("sta_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex(new[] { "Name" }, "idx_pay_name")
+                        .IsUnique();
+
+                    b.ToTable("payment_methods");
+                });
+
             modelBuilder.Entity("Phoenix.Models.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -540,21 +603,21 @@ namespace Phoenix.Migrations
 
             modelBuilder.Entity("Phoenix.Models.Account", b =>
                 {
-                    b.HasOne("Phoenix.Models.Bank", "bank")
+                    b.HasOne("Phoenix.Models.Bank", "Bank")
                         .WithMany()
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Phoenix.Domains.Status", "status")
+                    b.HasOne("Phoenix.Domains.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("bank");
+                    b.Navigation("Bank");
 
-                    b.Navigation("status");
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Phoenix.Models.Bank", b =>
@@ -594,6 +657,23 @@ namespace Phoenix.Migrations
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.PaymentMethod", b =>
+                {
+                    b.HasOne("Phoenix.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Phoenix.Domains.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
 
                     b.Navigation("Status");
                 });

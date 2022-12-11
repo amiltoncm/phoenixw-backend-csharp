@@ -1,4 +1,6 @@
-﻿DROP TABLE public.accounts;
+﻿DROP TABLE public.payment_methods;
+DROP TABLE public.payment_types;
+DROP TABLE public.accounts;
 DROP TABLE public.banks;
 DROP TABLE public.people;
 DROP TABLE public.person_types;

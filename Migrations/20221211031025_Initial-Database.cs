@@ -1,15 +1,26 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Phoenix.Migrations
 {
-    public partial class initialdatabase : Migration
+    public partial class InitialDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "payment_types",
+                columns: table => new
+                {
+                    pty_id = table.Column<int>(type: "integer", nullable: false),
+                    pty_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payment_types", x => x.pty_id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "person_types",
                 columns: table => new
@@ -199,6 +210,34 @@ namespace Phoenix.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "payment_methods",
+                columns: table => new
+                {
+                    pay_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    pay_name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    pty_id = table.Column<int>(type: "integer", nullable: false),
+                    acc_id = table.Column<int>(type: "integer", nullable: true),
+                    pay_days = table.Column<int>(type: "integer", nullable: true),
+                    sta_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_payment_methods", x => x.pay_id);
+                    table.ForeignKey(
+                        name: "FK_payment_methods_accounts_acc_id",
+                        column: x => x.acc_id,
+                        principalTable: "accounts",
+                        principalColumn: "acc_id");
+                    table.ForeignKey(
+                        name: "FK_payment_methods_status_sta_id",
+                        column: x => x.sta_id,
+                        principalTable: "status",
+                        principalColumn: "sta_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cities",
                 columns: table => new
                 {
@@ -359,6 +398,28 @@ namespace Phoenix.Migrations
                 column: "sta_id");
 
             migrationBuilder.CreateIndex(
+                name: "idx_pay_name",
+                table: "payment_methods",
+                column: "pay_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_payment_methods_acc_id",
+                table: "payment_methods",
+                column: "acc_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_payment_methods_sta_id",
+                table: "payment_methods",
+                column: "sta_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_pty_name",
+                table: "payment_types",
+                column: "pty_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "idx_peo_alias",
                 table: "people",
                 column: "peo_alias");
@@ -447,7 +508,10 @@ namespace Phoenix.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "accounts");
+                name: "payment_methods");
+
+            migrationBuilder.DropTable(
+                name: "payment_types");
 
             migrationBuilder.DropTable(
                 name: "people");
@@ -456,7 +520,7 @@ namespace Phoenix.Migrations
                 name: "users");
 
             migrationBuilder.DropTable(
-                name: "banks");
+                name: "accounts");
 
             migrationBuilder.DropTable(
                 name: "cities");
@@ -469,6 +533,9 @@ namespace Phoenix.Migrations
 
             migrationBuilder.DropTable(
                 name: "profiles");
+
+            migrationBuilder.DropTable(
+                name: "banks");
 
             migrationBuilder.DropTable(
                 name: "states");

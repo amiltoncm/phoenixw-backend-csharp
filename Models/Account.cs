@@ -42,10 +42,10 @@ namespace Phoenix.Models
         public int StatusId { get; set; }
 
         [Display(Name = "Banco")]
-        public virtual Bank ? bank { get; set; }
+        public virtual Bank ? Bank { get; set; }
 
         [Display(Name = "Status")]
-        public virtual Status ? status { get; set; }
+        public virtual Status ? Status { get; set; }
 
     }
 

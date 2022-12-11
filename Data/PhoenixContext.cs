@@ -33,5 +33,9 @@ namespace Phoenix.Data
 
         public DbSet<Phoenix.Models.Account> Account { get; set; }
 
+        public DbSet<Phoenix.Domains.PaymentType> PaymentType { get; set; }
+
+        public DbSet<Phoenix.Models.PaymentMethod> PaymentMethod { get; set; }
+
     }
 }
