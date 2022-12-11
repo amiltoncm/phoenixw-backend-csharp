@@ -51,7 +51,7 @@ namespace Phoenix.Models
         [Required]
         [Column("pay_updated")]
         [Display(Name = "Alterado em")]
-        public DateTime Upadted { get; set; }
+        public DateTime Updated { get; set; }
 
         [Display(Name = "Conta")]
         public Account ? Account { get; set; }

@@ -144,7 +144,7 @@ namespace Phoenix.Models
         [Required]
         [Column("peo_updated")]
         [Display(Name = "Alterado em")]
-        public DateTime Upadted { get; set; }
+        public DateTime Updated { get; set; }
 
         [AllowNull]
         [Column("peo_deleted")]
