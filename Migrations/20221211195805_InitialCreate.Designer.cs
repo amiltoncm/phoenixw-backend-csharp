@@ -12,7 +12,7 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221211173613_InitialCreate")]
+    [Migration("20221211195805_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,27 @@ namespace Phoenix.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Phoenix.Domains.MovimentType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
+                        .HasColumnName("mvt_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("mvt_name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "idx_mvt_name")
+                        .IsUnique();
+
+                    b.ToTable("moviment_types");
+                });
 
             modelBuilder.Entity("Phoenix.Domains.PaymentType", b =>
                 {
@@ -351,7 +372,7 @@ namespace Phoenix.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("sta_id");
 
-                    b.Property<DateTime>("Upadted")
+                    b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("pay_updated");
 
@@ -477,7 +498,7 @@ namespace Phoenix.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("peo_status");
 
-                    b.Property<DateTime>("Upadted")
+                    b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("peo_updated");
 

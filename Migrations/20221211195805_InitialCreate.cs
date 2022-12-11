@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -9,6 +10,18 @@ namespace Phoenix.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "moviment_types",
+                columns: table => new
+                {
+                    mvt_id = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
+                    mvt_name = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_moviment_types", x => x.mvt_id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "payment_types",
                 columns: table => new
@@ -406,6 +419,12 @@ namespace Phoenix.Migrations
                 column: "sta_id");
 
             migrationBuilder.CreateIndex(
+                name: "idx_mvt_name",
+                table: "moviment_types",
+                column: "mvt_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "idx_pay_name",
                 table: "payment_methods",
                 column: "pay_name",
@@ -520,6 +539,9 @@ namespace Phoenix.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "moviment_types");
+
             migrationBuilder.DropTable(
                 name: "payment_methods");
 
