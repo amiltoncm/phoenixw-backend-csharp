@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Phoenix.Migrations
 {
-    public partial class initialdatabase : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -233,6 +232,12 @@ namespace Phoenix.Migrations
                         principalTable: "accounts",
                         principalColumn: "acc_id");
                     table.ForeignKey(
+                        name: "FK_payment_methods_payment_types_pty_id",
+                        column: x => x.pty_id,
+                        principalTable: "payment_types",
+                        principalColumn: "pty_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_payment_methods_status_sta_id",
                         column: x => x.sta_id,
                         principalTable: "status",
@@ -412,6 +417,11 @@ namespace Phoenix.Migrations
                 column: "acc_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_payment_methods_pty_id",
+                table: "payment_methods",
+                column: "pty_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_payment_methods_sta_id",
                 table: "payment_methods",
                 column: "sta_id");
@@ -514,9 +524,6 @@ namespace Phoenix.Migrations
                 name: "payment_methods");
 
             migrationBuilder.DropTable(
-                name: "payment_types");
-
-            migrationBuilder.DropTable(
                 name: "people");
 
             migrationBuilder.DropTable(
@@ -524,6 +531,9 @@ namespace Phoenix.Migrations
 
             migrationBuilder.DropTable(
                 name: "accounts");
+
+            migrationBuilder.DropTable(
+                name: "payment_types");
 
             migrationBuilder.DropTable(
                 name: "cities");

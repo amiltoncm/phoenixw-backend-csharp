@@ -12,8 +12,8 @@ using Phoenix.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20221211033405_initial-database")]
-    partial class initialdatabase
+    [Migration("20221211173613_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -359,6 +359,8 @@ namespace Phoenix.Migrations
 
                     b.HasIndex("AccountId");
 
+                    b.HasIndex("PaymentTypeId");
+
                     b.HasIndex("StatusId");
 
                     b.HasIndex(new[] { "Name" }, "idx_pay_name")
@@ -677,6 +679,12 @@ namespace Phoenix.Migrations
                         .WithMany()
                         .HasForeignKey("AccountId");
 
+                    b.HasOne("Phoenix.Domains.PaymentType", "PaymentType")
+                        .WithMany()
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Phoenix.Domains.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
@@ -684,6 +692,8 @@ namespace Phoenix.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
+
+                    b.Navigation("PaymentType");
 
                     b.Navigation("Status");
                 });

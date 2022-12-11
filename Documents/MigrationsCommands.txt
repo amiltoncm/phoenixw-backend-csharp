@@ -1,0 +1,5 @@
+﻿Add-Migration InitialCreate // Para a primeira vez
+
+Add-Migration description-to-do
+
+update-database

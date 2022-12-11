@@ -25,10 +25,12 @@ namespace Phoenix.Models
         [Required]
         [Column("pty_id")]
         [Display(Name = "Tipo de Pagamento")]
+        [ForeignKey("PaymentType")]
         public int PaymentTypeId { get; set; }
 
         [Column("acc_id")]
         [Display(Name = "Conta")]
+        [ForeignKey("Account")]
         public int ? AccountId { get; set; }
 
         [Column("pay_days")]
@@ -38,6 +40,7 @@ namespace Phoenix.Models
         [Required]
         [Column("sta_id")]
         [Display(Name = "Status")]
+        [ForeignKey("Status")]
         public int StatusId { get; set; }
 
         [Required]
@@ -50,9 +53,11 @@ namespace Phoenix.Models
         [Display(Name = "Alterado em")]
         public DateTime Upadted { get; set; }
 
-
         [Display(Name = "Conta")]
         public Account ? Account { get; set; }
+
+        [Display(Name = "Tipo de Pagamento")]
+        public PaymentType ? PaymentType { get; set; }
 
         [Display(Name = "Status")]
         public virtual Status ? Status { get; set; }
