@@ -51,9 +51,17 @@ namespace Phoenix.Models
         [Display(Name = "Atualizado em")]
         public DateTime Updated { get; set; }
 
+        [Required]
+        [Column("sta_id")]
+        [Display(Name = "Status")]
+        [ForeignKey("Status")]
+        public int StatusId { get; set; }
+
         [Display(Name = "Indicação de Pagamento")]
         public virtual PaymentIndication? PaymentIndication { get; set; }
 
+        [Display(Name = "Status")]
+        public virtual Status ? Status { get; set; }
 
     }
 

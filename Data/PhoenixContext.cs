@@ -46,8 +46,6 @@ namespace Phoenix.Data
         public DbSet<Phoenix.Models.PaymentTerm> PaymentTerm { get; set; }
 
         public DbSet<Phoenix.Models.PaymentTerm> PaymentTermMethod { get; set; }
-        
-        // Composite Keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PaymentTermMethod>()
