@@ -43,5 +43,19 @@ namespace Phoenix.Data
 
         public DbSet<Phoenix.Domains.PaymentIndication> PaymentIndication { get; set; }
 
+        public DbSet<Phoenix.Models.PaymentTerm> PaymentTerm { get; set; }
+
+        public DbSet<Phoenix.Models.PaymentTerm> PaymentTermMethod { get; set; }
+        
+        // Composite Keys
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PaymentTermMethod>()
+                .HasKey(p => new { p.PaymentTermId, p.PaymentMethodId });
+        }
+        
+        // Composite Keys
+        public DbSet<Phoenix.Models.PaymentTermMethod> PaymentTermMethod_1 { get; set; }
+
     }
 }
