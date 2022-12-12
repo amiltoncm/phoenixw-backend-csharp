@@ -41,5 +41,7 @@ namespace Phoenix.Data
 
         public DbSet<Phoenix.Models.ChartAccounts> ChartAccounts { get; set; }
 
+        public DbSet<Phoenix.Domains.PaymentIndication> PaymentIndication { get; set; }
+
     }
 }
