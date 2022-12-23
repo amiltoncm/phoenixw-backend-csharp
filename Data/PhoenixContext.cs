@@ -54,6 +54,9 @@ namespace Phoenix.Data
         
         // Composite Keys
         public DbSet<Phoenix.Models.PaymentTermMethod> PaymentTermMethod_1 { get; set; }
+        
+        // Composite Keys
+        public DbSet<Phoenix.Domains.AddressType> AddressType { get; set; }
 
     }
 }
