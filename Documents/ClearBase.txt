@@ -1,4 +1,10 @@
-﻿DROP TABLE public.moviment_types;
+﻿DROP TABLE public.person_addresses;
+DROP TABLE public.address_types;
+DROP TABLE public.chart_accounts;
+DROP TABLE public.moviment_types;
+DROP TABLE public.payment_term_methods;
+DROP TABLE public.payment_terms;
+DROP TABLE public.payment_indications;
 DROP TABLE public.payment_methods;
 DROP TABLE public.payment_types;
 DROP TABLE public.accounts;

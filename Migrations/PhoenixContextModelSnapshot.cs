@@ -678,6 +678,73 @@ namespace Phoenix.Migrations
                     b.ToTable("people");
                 });
 
+            modelBuilder.Entity("Phoenix.Models.PersonAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("pad_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("pad_address");
+
+                    b.Property<int>("AddressTypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("adt_id");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("integer")
+                        .HasColumnName("cti_id");
+
+                    b.Property<string>("Complement")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("pad_complement");
+
+                    b.Property<string>("District")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("pad_district");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer")
+                        .HasColumnName("pad_number");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("integer")
+                        .HasColumnName("peo_id");
+
+                    b.Property<int>("PublicPlaceId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pup_id");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("pad_reference");
+
+                    b.Property<string>("Zip")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("pad_zip");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressTypeId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("PublicPlaceId");
+
+                    b.ToTable("person_addresses");
+                });
+
             modelBuilder.Entity("Phoenix.Models.State", b =>
                 {
                     b.Property<int>("Id")
@@ -961,6 +1028,41 @@ namespace Phoenix.Migrations
                     b.Navigation("PublicPlace");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Phoenix.Models.PersonAddress", b =>
+                {
+                    b.HasOne("Phoenix.Domains.AddressType", "AddressType")
+                        .WithMany()
+                        .HasForeignKey("AddressTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Phoenix.Domains.PublicPlace", "PublicPlace")
+                        .WithMany()
+                        .HasForeignKey("PublicPlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AddressType");
+
+                    b.Navigation("City");
+
+                    b.Navigation("Person");
+
+                    b.Navigation("PublicPlace");
                 });
 
             modelBuilder.Entity("Phoenix.Models.State", b =>

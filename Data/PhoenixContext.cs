@@ -57,6 +57,9 @@ namespace Phoenix.Data
         
         // Composite Keys
         public DbSet<Phoenix.Domains.AddressType> AddressType { get; set; }
+        
+        // Composite Keys
+        public DbSet<Phoenix.Models.PersonAddress> PersonAddress { get; set; }
 
     }
 }
